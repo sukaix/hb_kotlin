@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WidgetsTextView</string>
+    <string name="string_01">화면에 보여질 글자 01</string>
+    <string name="string_02">화면에 보여질 글자 02</string>
+    <!-- 줄바꿈 예제 -->
+    <string name="test">"뉴라인\n테스트</string>
+</resources>
