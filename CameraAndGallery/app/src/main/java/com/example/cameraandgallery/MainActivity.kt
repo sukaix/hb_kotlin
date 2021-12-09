@@ -23,15 +23,15 @@ class MainActivity: BaseActivity() {
 
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    // registerForActivityResult 로 구현(외인 유튜브)
-    val getAction = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if(it.resultCode == RESULT_OK){
-            if(it.data?.extras?.get("data") != null){
-                val bitmap = it.data?.extras?.get("data") as Bitmap
-                binding.imgPreview.setImageBitmap(bitmap)
-            }
-        }
-    }
+    // registerForActivityResult 로 구현(외인 유튜브와 여러가지 종합)
+//    val getAction = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+//        if(it.resultCode == RESULT_OK){
+//            if(it.data?.extras?.get("data") != null){
+//                val bitmap = it.data?.extras?.get("data") as Bitmap
+//                binding.imgPreview.setImageBitmap(bitmap)
+//            }
+//        }
+//    }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -39,12 +39,15 @@ class MainActivity: BaseActivity() {
 
             //imageView = findViewById(R.id.image)
 
+            Toast.makeText(this, "onCreate() 안 ", Toast.LENGTH_LONG).show()
+
             //카메라에서 찍은 사진을 외부 저장소에 저장하기 위해서, 저장소 권한을 요청하는 코드
             requirePermissions(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
 
         }
 
         override fun permissionGranted(requestCode: Int) {
+
             when(requestCode){
                 PERM_STORAGE -> setViews()
                 PERM_CAMERA -> openCamera()
@@ -65,6 +68,9 @@ class MainActivity: BaseActivity() {
 
 
         fun setViews(){
+
+            //Toast.makeText(this, "setViews() 안 ", Toast.LENGTH_LONG).show()
+
             binding.btnCamera.setOnClickListener {
                 requirePermissions(arrayOf(android.Manifest.permission.CAMERA), PERM_CAMERA)
             }
@@ -73,25 +79,24 @@ class MainActivity: BaseActivity() {
 
         fun openCamera(){
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            //startActivityForResult(intent, REQ_CAMERA)
-            getAction.launch(intent)
+            startActivityForResult(intent, REQ_CAMERA)
+            //getAction.launch(intent)
         }
 
-//        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//            super.onActivityResult(requestCode, resultCode, data)
-//            if(resultCode == RESULT_OK){
-//                when(requestCode){
-//                    REQ_CAMERA -> {
-//                        if(data?.extras?.get("data") != null){
-//                            val bitmap = data?.extras?.get("data") as Bitmap
-//                            binding.imgPreview.setImageBitmap(bitmap)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            if(resultCode == RESULT_OK){
+                when(requestCode){
+                    REQ_CAMERA -> {
+                        if(data?.extras?.get("data") != null){
+                            val bitmap = data?.extras?.get("data") as Bitmap
+                            binding.imgPreview.setImageBitmap(bitmap)
+                        }
+                    }
+                }
+            }
+        }
+
 
 
     }
