@@ -13,7 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.cameraandgallery.databinding.ActivityMainBinding
 import java.util.jar.Manifest
 
-
+// 아래는 3판 이전판 내용이다.
 
 class MainActivity: BaseActivity() {
 
